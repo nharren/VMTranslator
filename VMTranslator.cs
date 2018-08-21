@@ -58,7 +58,7 @@ namespace VMTranslator
 
         private static void ProcessDirectory(string directoryPath)
         {
-            var outputFilePath = $@"{directoryPath}\{Path.GetFileName(directoryPath)}.asm";
+            var outputFilePath = $@"{directoryPath}/{Path.GetFileName(directoryPath)}.asm";
 
             if (File.Exists(outputFilePath))
             {
