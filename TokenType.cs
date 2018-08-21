@@ -1,9 +1,10 @@
 ﻿namespace VMTranslator
 {
-    public enum TokenType
+    public enum TokenType : byte
     {
         EOF,
         Keyword,
-        Literal
+        Identifier,
+        IntegerLiteral
     }
 }

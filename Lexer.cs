@@ -15,7 +15,9 @@ namespace VMTranslator
 
         public Token Read()
         {
-            return AnalyzeLexeme(ReadLexeme());
+            var lexeme = ReadLexeme();
+
+            return new Token(GetTokenType(lexeme), lexeme);
         }
 
         private string ReadLexeme()
@@ -59,12 +61,12 @@ namespace VMTranslator
             return new string(chars.ToArray());
         }
 
-        private Token AnalyzeLexeme(string lexeme)
+        private TokenType GetTokenType(string lexeme)
         {
             switch (lexeme)
             {
                 case null:
-                    return new Token(TokenType.EOF, null);
+                    return TokenType.EOF;
                 case "pop":
                 case "push":
                 case "constant":
@@ -84,17 +86,23 @@ namespace VMTranslator
                 case "and":
                 case "or":
                 case "not":
-                    return new Token(TokenType.Keyword, lexeme);
+                case "function":
+                case "call":
+                case "label":
+                case "goto":
+                case "if-goto":
+                case "return":
+                    return TokenType.Keyword;
                 default:
-                    for (int i = 0; i < lexeme.Length; i++)
+
+                    int integer;
+
+                    if (int.TryParse(lexeme, out integer))
                     {
-                        if (!char.IsDigit(lexeme[i]))
-                        {
-                            throw new Exception($"Unrecognized sequence: '{lexeme}'.");
-                        }
+                        return TokenType.IntegerLiteral;
                     }
 
-                    return new Token(TokenType.Literal, lexeme);
+                    return TokenType.Identifier;
             }
         }
 

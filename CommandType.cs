@@ -8,7 +8,7 @@
         Pop,
         Label,
         Goto,
-        If,
+        IfGoto,
         Function,
         Return,
         Call
